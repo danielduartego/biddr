@@ -1,0 +1,38 @@
+<h2>Show Auction</h2>
+<div class="">
+  <h3><%= @auction.title %></h3>
+</div>
+<div class="">
+  <p>Details: <%= @auction.details %></p>
+</div>
+<div class="">
+  <p>End date:<%= @auction.end_date %></p>
+</div>
+<div class="">
+  <p>Price: <%= @auction.price %></p>
+</div>
+<p><span class="label <%=  label_class(@auction.aasm_state) %>">
+  <%= @auction.aasm_state.capitalize %></span> </p>
+
+<% if @auction.published? %>
+  <%= link_to "Reserve", auction_publishings_path(@auction), method: :post,
+                                                    class: "btn btn-primary" %>
+<% end %>
+
+<!-- --------- bid form ----------- -->
+
+<div class="form-group">
+  <%= simple_form_for [@auction, @bid] do |f| %>
+  <%= f.input :price %>
+  <%= f.submit class: "btn btn-primary btn-sm" %>
+  <% end %>
+
+</div>
+
+
+<!-- bids -->
+  <% @auction.bids.each do |bid| %>
+  <div class="well" id="bid">
+    <%= bid.price %>
+  </div>
+    <% end %>

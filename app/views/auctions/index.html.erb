@@ -1,0 +1,18 @@
+<h2>Index Auctions</h2>
+
+<% @auctions.each do |auc| %>
+  <div class="well">
+    <div class="">
+      <%= link_to auc.title, auction_path(auc) %>
+    </div>
+    <div class="">
+      <%= auc.details %>
+    </div>
+    <div class="">
+      <%= auc.end_date %>
+    </div>
+    <div class="">
+      <%= auc.price %>
+    </div>
+  </div>
+<% end %>
