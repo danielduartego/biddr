@@ -6,9 +6,9 @@ class PublishingsController < ApplicationController
     auction = Auction.find params[:auction_id]
     if auction.reserve
       auction.save
-      redirect_to auction, notice: "campaing published"
+      redirect_to auction, notice: "Auction Reserved"
     else
-      redirect_to auction, alert: "Cant' publish"
+      redirect_to auction, alert: "Cant' reserve"
     end
   end
 

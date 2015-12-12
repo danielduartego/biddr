@@ -17,7 +17,6 @@ class UsersController < ApplicationController
 
   def show
     @user = current_user
-    # @auctions = Project.all.order(:created_at).reverse_order
   end
 
 end

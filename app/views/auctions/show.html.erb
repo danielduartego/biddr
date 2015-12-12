@@ -1,38 +1,47 @@
-<h2>Show Auction</h2>
-<div class="">
-  <h3><%= @auction.title %></h3>
-</div>
-<div class="">
-  <p>Details: <%= @auction.details %></p>
-</div>
-<div class="">
-  <p>End date:<%= @auction.end_date %></p>
-</div>
-<div class="">
-  <p>Price: <%= @auction.price %></p>
-</div>
-<p><span class="label <%=  label_class(@auction.aasm_state) %>">
-  <%= @auction.aasm_state.capitalize %></span> </p>
+<h2 class="text-center">Auction</h2>
+<div class="well">
+  <div class="">
+    <h1><%= @auction.title %></h1>
+  </div>
+  <div class="">
+    <h5>Created by: <%= @auction.user.first_name.capitalize %></h5>
+  </div>
+  <div class="">
+    <p>Details: <%= @auction.details %></p>
+  </div>
+  <div class="">
+    <h5>End date: <%= @auction.end_date %></h5>
+  </div>
+  <div class="">
+    <h3>Current Price: $ <%= @current_price %></h3>
+  </div>
+  <p><span class="label <%=  label_class(@auction.aasm_state) %>">
+    <%= @auction.aasm_state.capitalize %></span> </p>
 
-<% if @auction.published? %>
-  <%= link_to "Reserve", auction_publishings_path(@auction), method: :post,
-                                                    class: "btn btn-primary" %>
-<% end %>
+  <% if @current_price && @current_price > @auction.price %>
+    <% if @auction.published? %>
+      <%= link_to "Reserve", auction_publishings_path(@auction), method: :post,
+                                                        class: "btn btn-primary" %>
+    <% end %>
+  <% end %>
+</div>
 
 <!-- --------- bid form ----------- -->
 
-<div class="form-group">
-  <%= simple_form_for [@auction, @bid] do |f| %>
-  <%= f.input :price %>
-  <%= f.submit class: "btn btn-primary btn-sm" %>
-  <% end %>
-
-</div>
-
-
-<!-- bids -->
-  <% @auction.bids.each do |bid| %>
-  <div class="well" id="bid">
-    <%= bid.price %>
-  </div>
+<% if @auction.published? %>
+  <div class="form-group">
+    <%= simple_form_for [@auction, @bid] do |f| %>
+    <%= f.input :price %>
+    <%= f.submit class: "btn btn-primary btn-sm" %>
     <% end %>
+
+  </div>
+
+
+  <!-- bids -->
+    <% @auction.bids.each do |bid| %>
+    <div class="well" id="bid">
+      $<%= bid.price %> - Bidded by: <%= bid.user.full_name.capitalize %>
+    </div>
+      <% end %>
+<% end %>

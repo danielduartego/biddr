@@ -20,5 +20,8 @@ class ApplicationController < ActionController::Base
   end
 
   helper_method :user_signed_in?
-  
+
+
+
+
 end

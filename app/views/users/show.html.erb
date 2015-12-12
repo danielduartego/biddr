@@ -1,0 +1,9 @@
+<h1 class="text-center"> <%= current_user.full_name.capitalize %></h1>
+
+<div class="well text-center">
+  <% @user.bids.each do |bid| %>
+  <h3> Auction: <%= bid.auction.title %></h3>
+  <h3> Bid value: <%= bid.auction.price %></h3>
+  <hr>
+  <% end %>
+</div>
