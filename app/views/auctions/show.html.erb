@@ -29,19 +29,23 @@
 <!-- --------- bid form ----------- -->
 
 <% if @auction.published? %>
+
   <div class="form-group">
-    <%= simple_form_for [@auction, @bid] do |f| %>
+    <%= simple_form_for [@auction, @bid], remote: true do |f| %>
     <%= f.input :price %>
-    <%= f.submit class: "btn btn-primary btn-sm" %>
+    <%= f.submit "Create a Bid", class: "btn btn-primary btn-sm", data: {disable_with: "Saving..."} %>
     <% end %>
 
   </div>
 
 
   <!-- bids -->
-    <% @auction.bids.each do |bid| %>
-    <div class="well" id="bid">
-      $<%= bid.price %> - Bidded by: <%= bid.user.full_name.capitalize %>
-    </div>
+  <div  id="bid">
+      <% @auction.bids.each do |bid| %>
+
+        <%= render "/bids/bid", bid: bid %>
+
       <% end %>
+  </div>
+
 <% end %>

@@ -13,15 +13,19 @@ class BidsController < ApplicationController
     @bid = Bid.new bid_params
     @bid.user = current_user
     @bid.auction = @auction
-    if current_user != @auction.user
-      if (@auction.bids.first == nil) || (@auction.bids.maximum(:price) < @bid.price)
-        @bid.save
-        redirect_to @auction, notice: "Saved"
+    respond_to do |format|
+      if current_user != @auction.user
+        if (@auction.bids.first == nil) || (@auction.bids.maximum(:price) < @bid.price)
+          @bid.save
+          format.html {redirect_to @auction, notice: "Bid created!"}
+          format.js {render :create_success}
+        else
+          format.html {render "auction/show"}
+          format.js {render js: "alert('failure');"}
+        end
       else
-        redirect_to auction_path(@auction), alert: "Bid amount need to bigger!"
+        redirect_to auction_path(@auction), alert: "You cant Bid you on Auction!"
       end
-    else
-      redirect_to auction_path(@auction), alert: "You cant Bid you on Auction!"
     end
   end
 
